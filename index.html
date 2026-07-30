@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Tracker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header id="app-header">
+    <div class="header-content">
+      <h1 class="logo" id="logo-btn">BugTracker</h1>
+      <nav id="main-nav">
+        <button class="nav-back-btn hidden" id="back-btn">← Volver</button>
+      </nav>
+    </div>
+  </header>
+  <main id="app-root">
+    <section id="home-section">
+      <h2 class="home-title">Aplicaciones monitoreadas</h2>
+      <p class="home-subtitle">Selecciona una aplicación para ver los bugs reportados</p>
+      <div class="apps-grid" id="apps-grid"></div>
+    </section>
+    <section id="bugs-section" class="hidden">
+      <div class="bugs-header">
+        <h2 class="bugs-title" id="bugs-app-name"></h2>
+      </div>
+      <p class="bugs-subtitle hidden" id="bugs-subtitle"></p>
+      <table class="bugs-table hidden" id="bugs-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Severidad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="bugs-tbody"></tbody>
+      </table>
+    </section>
+  </main>
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="modal-content"></div>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>
