@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +11,14 @@
     <div class="header-content">
       <h1 class="logo" id="logo-btn">BugTracker</h1>
       <nav id="main-nav">
-        <button class="nav-back-btn hidden" id="back-btn">← Volver</button>
+        <button class="nav-back-btn hidden" id="back-btn">← Back</button>
       </nav>
     </div>
   </header>
   <main id="app-root">
     <section id="home-section">
-      <h2 class="home-title">Aplicaciones monitoreadas</h2>
-      <p class="home-subtitle">Selecciona una aplicación para ver los bugs reportados</p>
+      <h2 class="home-title">Monitored Applications</h2>
+      <p class="home-subtitle">Select an application to view reported bugs</p>
       <div class="apps-grid" id="apps-grid"></div>
     </section>
     <section id="bugs-section" class="hidden">
@@ -30,10 +30,10 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Título</th>
-            <th>Severidad</th>
-            <th>Estado</th>
-            <th>Fecha</th>
+            <th>Title</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody id="bugs-tbody"></tbody>
