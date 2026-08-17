@@ -161,6 +161,16 @@ body {
   font-weight: 700;
 }
 
+.app-card-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  margin-bottom: 1.25rem;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+}
+
 .app-card-name {
   font-size: 1.25rem;
   font-weight: 600;
@@ -182,6 +192,19 @@ body {
 .app-card-bugs .critical-count {
   color: var(--critical);
   font-weight: 600;
+}
+
+.state-message {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-cell {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem 1rem !important;
 }
 
 /* Bugs */
@@ -398,6 +421,14 @@ body {
   border: 1px solid var(--border);
   max-height: 400px;
   object-fit: contain;
+  background: var(--bg-primary);
+}
+
+.modal-evidence video {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  max-height: 400px;
   background: var(--bg-primary);
 }
 

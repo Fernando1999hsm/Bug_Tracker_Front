@@ -1,23 +1,72 @@
-const APPS = [
-  { id: 'cod-mobile', name: 'Call of Duty Mobile', icon: 'COD', color: '#8b3a3a', desc: 'First-person shooter battle royale and multiplayer' },
-  { id: 'pokemon-go', name: 'Pok\u00e9mon GO', icon: 'PK', color: '#2a5c2a', desc: 'Augmented reality to catch Pok\u00e9mon in the real world' }
-];
+let APPS = [];
+let BUGS = [];
 
-const BUGS = [
-  {
-    id: 'COD-001', appId: 'cod-mobile', severity: 'critical', priority: 'high', status: 'open', date: '2026-07-28',
-    title: 'Crash when entering Battle Royale match',
-    steps: '1. Open Call of Duty Mobile\n2. Select Battle Royale mode\n3. Press "Start Match"\n4. Wait for the loading screen to finish',
-    expected: 'The game should load the Battle Royale map and enter the match normally',
-    actual: 'The game freezes on the loading screen for 10 seconds and then crashes without showing any error message',
-    affectedVersion: '10.3.5',
-    lastUpdate: '2026-07-30',
-    evidence: 'Media/Cod_Mob_01.jpg'
+const SEVERITY_LEVELS = { 0: 'critical', 1: 'high', 2: 'medium', 3: 'low' };
+const PRIORITY_LEVELS = { 0: 'critical', 1: 'high', 2: 'medium', 3: 'low' };
+const APP_COLORS = ['#8b3a3a', '#2a5c2a', '#c44a00', '#5a3a8a', '#3a6a8a'];
+
+function colorForApp(id) {
+  return APP_COLORS[id % APP_COLORS.length];
+}
+
+function formatSteps(steps) {
+  if (typeof steps === 'string') return steps;
+  if (steps && typeof steps === 'object') {
+    return Object.keys(steps)
+      .sort()
+      .map(function(k) { return k + '. ' + steps[k]; })
+      .join('\n');
   }
-];
+  return '';
+}
+
+function mapApp(row) {
+  return {
+    id: row.id,
+    name: row.Name,
+    icon: row.Code,
+    color: colorForApp(row.id),
+    desc: '',
+    image: row.image || row.icon_url || row.Icon || null
+  };
+}
+
+function mapBug(row) {
+  return {
+    id: row.id,
+    appId: row.application_id,
+    severity: SEVERITY_LEVELS[row.severity] || 'medium',
+    priority: PRIORITY_LEVELS[row.priority] || 'medium',
+    status: row.status ? 'open' : 'resolved',
+    date: row.date_created,
+    title: row.title,
+    steps: formatSteps(row.steps),
+    expected: row.r_expected,
+    actual: row.r_actual,
+    affectedVersion: row.afected_version,
+    lastUpdate: row.date_close || row.date_created,
+    evidence: row.evidence || row.Evidence || null,
+    video: row.video || row.Video || row.video_url || null
+  };
+}
+
+function showMessage(text) {
+  const grid = document.getElementById('apps-grid');
+  grid.innerHTML = '';
+  const msg = document.createElement('p');
+  msg.className = 'state-message';
+  msg.textContent = text;
+  grid.appendChild(msg);
+}
+
+function showLoading() {
+  showMessage('Loading data...');
+}
 
 function renderApps() {
   const grid = document.getElementById('apps-grid');
+  grid.innerHTML = '';
+
   for (const app of APPS) {
     const count = BUGS.filter(function(b) { return b.appId === app.id; }).length;
     const critical = BUGS.filter(function(b) { return b.appId === app.id && b.severity === 'critical'; }).length;
@@ -25,10 +74,18 @@ function renderApps() {
     const card = document.createElement('div');
     card.className = 'app-card';
 
-    const icon = document.createElement('div');
-    icon.className = 'app-card-icon';
-    icon.style.cssText = 'background:' + app.color + '30;color:' + app.color + ';border:2px solid ' + app.color + '50;';
-    icon.textContent = app.icon;
+    let icon;
+    if (app.image) {
+      icon = document.createElement('img');
+      icon.className = 'app-card-image';
+      icon.src = app.image;
+      icon.alt = app.name;
+    } else {
+      icon = document.createElement('div');
+      icon.className = 'app-card-icon';
+      icon.style.cssText = 'background:' + app.color + '30;color:' + app.color + ';border:2px solid ' + app.color + '50;';
+      icon.textContent = app.icon;
+    }
 
     const name = document.createElement('h3');
     name.className = 'app-card-name';
@@ -65,6 +122,17 @@ function openApp(appId) {
 
   const tbody = document.getElementById('bugs-tbody');
   tbody.innerHTML = '';
+
+  if (bugCount === 0) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.colSpan = 5;
+    cell.className = 'empty-cell';
+    cell.textContent = 'No bugs reported for this application';
+    row.appendChild(cell);
+    tbody.appendChild(row);
+    return;
+  }
 
   for (const bug of bugs) {
     const row = document.createElement('tr');
@@ -137,7 +205,11 @@ function openModal(bugId) {
       '</div>' +
       '<div class="modal-section">' +
         '<div class="modal-section-label">Evidence</div>' +
-        (bug.evidence ? '<div class="modal-evidence"><img src="' + bug.evidence + '" alt="Evidence"></div>' : '<div class="modal-evidence-placeholder">No evidence attached</div>') +
+        (bug.video
+          ? '<div class="modal-evidence"><video src="' + bug.video + '" controls></video></div>'
+          : bug.evidence
+            ? '<div class="modal-evidence"><img src="' + bug.evidence + '" alt="Evidence"></div>'
+            : '<div class="modal-evidence-placeholder">No evidence attached</div>') +
       '</div>' +
     '</div>';
 
@@ -158,8 +230,22 @@ function handleKeydown(e) {
   if (e.key === 'Escape') closeModal();
 }
 
+async function loadData() {
+  try {
+    SupabaseService.init();
+    const data = await SupabaseService.fetchAll();
+    APPS = data.apps.map(mapApp);
+    BUGS = data.bugs.map(mapBug);
+    renderApps();
+  } catch (err) {
+    console.error(err);
+    showMessage('Error loading data: ' + (err.message || 'unknown error'));
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  renderApps();
+  showLoading();
+  loadData();
   document.getElementById('logo-btn').addEventListener('click', goHome);
   document.getElementById('back-btn').addEventListener('click', goHome);
 });
