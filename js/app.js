@@ -31,6 +31,36 @@ function mapApp(row) {
   };
 }
 
+function appCodeForBug(applicationId) {
+  const app = APPS.find(function(a) { return a.id === applicationId; });
+  return app ? app.icon : '';
+}
+
+function mediaForBug(appCode, bugId) {
+  return MEDIA_REGISTRY[appCode + '-' + bugId] || [];
+}
+
+function buildEvidenceHtml(bug) {
+  const items = bug.media || [];
+
+  if (items.length === 0) {
+    return '<div class="modal-evidence-placeholder">No evidence attached</div>';
+  }
+
+  if (items.length === 1) {
+    const m = items[0];
+    return m.type === 'video'
+      ? '<div class="modal-evidence"><video src="Media/' + m.file + '" controls onerror="this.remove()"></video></div>'
+      : '<div class="modal-evidence"><img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()"></div>';
+  }
+
+  return '<div class="modal-evidence-grid">' + items.map(function(m) {
+    return m.type === 'video'
+      ? '<div class="modal-evidence-item"><video src="Media/' + m.file + '" controls onerror="this.remove()"></video></div>'
+      : '<div class="modal-evidence-item"><img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()"></div>';
+  }).join('') + '</div>';
+}
+
 function mapBug(row) {
   return {
     id: row.id,
@@ -45,8 +75,7 @@ function mapBug(row) {
     actual: row.r_actual,
     affectedVersion: row.afected_version,
     lastUpdate: row.date_close || row.date_created,
-    evidence: row.evidence || row.Evidence || null,
-    video: row.video || row.Video || row.video_url || null
+    media: mediaForBug(appCodeForBug(row.application_id), row.id)
   };
 }
 
@@ -205,11 +234,7 @@ function openModal(bugId) {
       '</div>' +
       '<div class="modal-section">' +
         '<div class="modal-section-label">Evidence</div>' +
-        (bug.video
-          ? '<div class="modal-evidence"><video src="' + bug.video + '" controls></video></div>'
-          : bug.evidence
-            ? '<div class="modal-evidence"><img src="' + bug.evidence + '" alt="Evidence"></div>'
-            : '<div class="modal-evidence-placeholder">No evidence attached</div>') +
+        buildEvidenceHtml(bug) +
       '</div>' +
     '</div>';
 

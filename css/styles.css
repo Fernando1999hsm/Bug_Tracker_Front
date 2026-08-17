@@ -445,6 +445,21 @@ body {
   font-size: 0.9rem;
 }
 
+.modal-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.modal-evidence-item img,
+.modal-evidence-item video {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  object-fit: contain;
+}
+
 @media (max-width: 600px) {
   .modal { width: 95%; max-height: 90vh; }
   .modal-header, .modal-body { padding: 1rem 1.25rem; }
