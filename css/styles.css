@@ -354,6 +354,24 @@ body {
   align-items: center;
 }
 
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.meta-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.meta-value {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: "Courier New", monospace;
+  font-weight: 600;
+}
+
 .modal-close {
   background: none;
   border: none;

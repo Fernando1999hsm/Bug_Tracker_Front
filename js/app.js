@@ -27,7 +27,7 @@ function mapApp(row) {
     icon: row.Code,
     color: colorForApp(row.id),
     desc: '',
-    image: row.image || row.icon_url || row.Icon || null
+    image: row.image || row.icon_url || row.Icon || APP_LOGOS[row.Code] || null
   };
 }
 
@@ -205,10 +205,10 @@ function openModal(bugId) {
       '<div class="modal-header-left">' +
         '<h3 class="modal-title">' + bug.title + '</h3>' +
         '<div class="modal-meta">' +
-          '<span class="severity-badge severity-' + bug.severity + '">' + sevLabel + '</span>' +
-          '<span class="priority-badge priority-' + bug.priority + '">' + priLabel + '</span>' +
-          '<span class="status-badge status-' + bug.status + '">' + statLabel + '</span>' +
-          '<span style="color: var(--text-muted); font-size: 0.85rem;">' + bug.id + '</span>' +
+          '<span class="meta-item"><span class="meta-label">Severity:</span><span class="severity-badge severity-' + bug.severity + '">' + sevLabel + '</span></span>' +
+          '<span class="meta-item"><span class="meta-label">Priority:</span><span class="priority-badge priority-' + bug.priority + '">' + priLabel + '</span></span>' +
+          '<span class="meta-item"><span class="meta-label">Status:</span><span class="status-badge status-' + bug.status + '">' + statLabel + '</span></span>' +
+          '<span class="meta-item"><span class="meta-label">Bug ID:</span><span class="meta-value">#' + bug.id + '</span></span>' +
         '</div>' +
       '</div>' +
       '<button class="modal-close" id="modal-close-btn">\u00d7</button>' +
