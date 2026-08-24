@@ -103,17 +103,24 @@ function renderApps() {
     const card = document.createElement('div');
     card.className = 'app-card';
 
+    function buildIconChip() {
+      const chip = document.createElement('div');
+      chip.className = 'app-card-icon';
+      chip.style.cssText = 'background:' + app.color + '30;color:' + app.color + ';border:2px solid ' + app.color + '50;';
+      chip.textContent = app.icon;
+      return chip;
+    }
+
     let icon;
     if (app.image) {
-      icon = document.createElement('img');
-      icon.className = 'app-card-image';
-      icon.src = app.image;
-      icon.alt = app.name;
+      const img = document.createElement('img');
+      img.className = 'app-card-image';
+      img.src = app.image;
+      img.alt = app.name;
+      img.addEventListener('error', function() { img.replaceWith(buildIconChip()); });
+      icon = img;
     } else {
-      icon = document.createElement('div');
-      icon.className = 'app-card-icon';
-      icon.style.cssText = 'background:' + app.color + '30;color:' + app.color + ';border:2px solid ' + app.color + '50;';
-      icon.textContent = app.icon;
+      icon = buildIconChip();
     }
 
     const name = document.createElement('h3');
