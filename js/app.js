@@ -48,11 +48,15 @@ function youtubeId(url) {
 function mediaItemHtml(m) {
   if (m.type === 'youtube' && m.url) {
     const id = youtubeId(m.url);
-    const img = id
-      ? '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="Video evidence" onerror="this.remove()">'
-      : '';
+    if (id) {
+      return '<div class="youtube-frame-wrap"><iframe class="youtube-frame" ' +
+        'src="https://www.youtube-nocookie.com/embed/' + id + '" ' +
+        'title="Video evidence" loading="lazy" ' +
+        'frameborder="0" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'allowfullscreen></iframe></div>';
+    }
     return '<a class="youtube-link" href="' + m.url + '" target="_blank" rel="noopener noreferrer">' +
-      img +
       '<span class="youtube-play">Watch on YouTube</span></a>';
   }
   if (m.type === 'video') {
