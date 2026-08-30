@@ -480,6 +480,65 @@ body {
   object-fit: contain;
 }
 
+.youtube-link {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.youtube-link:hover { border-color: var(--accent); }
+
+.youtube-link img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  background: var(--bg-tertiary);
+}
+
+.youtube-play {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.5);
+  transition: background var(--transition);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.youtube-link:hover .youtube-play { background: rgba(0, 0, 0, 0.65); }
+
+.youtube-play::before {
+  content: "\25B6";
+  font-size: 0.8rem;
+  padding-left: 3px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.9);
+}
+
+.modal-evidence .youtube-play { font-size: 1rem; }
+
 @media (max-width: 600px) {
   .modal { width: 95%; max-height: 90vh; }
   .modal-header, .modal-body { padding: 1rem 1.25rem; }

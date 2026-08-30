@@ -40,6 +40,27 @@ function mediaForBug(appCode, bugId) {
   return MEDIA_REGISTRY[appCode + '-' + bugId] || [];
 }
 
+function youtubeId(url) {
+  const m = String(url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
+  return m ? m[1] : '';
+}
+
+function mediaItemHtml(m) {
+  if (m.type === 'youtube' && m.url) {
+    const id = youtubeId(m.url);
+    const img = id
+      ? '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="Video evidence" onerror="this.remove()">'
+      : '';
+    return '<a class="youtube-link" href="' + m.url + '" target="_blank" rel="noopener noreferrer">' +
+      img +
+      '<span class="youtube-play">Watch on YouTube</span></a>';
+  }
+  if (m.type === 'video') {
+    return '<video src="Media/' + m.file + '" controls onerror="this.remove()"></video>';
+  }
+  return '<img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()">';
+}
+
 function buildEvidenceHtml(bug) {
   const items = bug.media || [];
 
@@ -48,16 +69,11 @@ function buildEvidenceHtml(bug) {
   }
 
   if (items.length === 1) {
-    const m = items[0];
-    return m.type === 'video'
-      ? '<div class="modal-evidence"><video src="Media/' + m.file + '" controls onerror="this.remove()"></video></div>'
-      : '<div class="modal-evidence"><img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()"></div>';
+    return '<div class="modal-evidence">' + mediaItemHtml(items[0]) + '</div>';
   }
 
   return '<div class="modal-evidence-grid">' + items.map(function(m) {
-    return m.type === 'video'
-      ? '<div class="modal-evidence-item"><video src="Media/' + m.file + '" controls onerror="this.remove()"></video></div>'
-      : '<div class="modal-evidence-item"><img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()"></div>';
+    return '<div class="modal-evidence-item">' + mediaItemHtml(m) + '</div>';
   }).join('') + '</div>';
 }
 

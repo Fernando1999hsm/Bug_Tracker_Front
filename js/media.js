@@ -1,43 +1,40 @@
 const MEDIA_REGISTRY = {
   'CodMob-1': [
-    { type: 'video', file: 'CodMob_01_01.mp4' }
-  ],
-  'CodMob-2': [
-    { type: 'image', file: 'CodMob_02_01.jpg' }
+    { type: 'youtube', url: 'https://youtu.be/Cuw6I1lzU08' }
   ],
   'PoGo-1': [
-    { type: 'video', file: 'PoGo_01_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-2': [
-    { type: 'video', file: 'PoGo_02_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-3': [
-    { type: 'video', file: 'PoGo_03_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-4': [
-    { type: 'video', file: 'PoGo_04_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-5': [
-    { type: 'video', file: 'PoGo_05_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-6': [
-    { type: 'video', file: 'PoGo_06_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-7': [
-    { type: 'video', file: 'PoGo_07_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-8': [
-    { type: 'video', file: 'PoGo_08_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PoGo-9': [
-    { type: 'video', file: 'PoGo_09_01.mp4' },
-    { type: 'video', file: 'PoGo_09_02.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' },
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PvZ-1': [
-    { type: 'video', file: 'PvZ_01_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ],
   'PvZ-2': [
-    { type: 'video', file: 'PvZ_02_01.mp4' }
+    { type: 'youtube', url: 'https://youtu.be/REPLACE_WITH_VIDEO_ID' }
   ]
 };
 
