@@ -31,38 +31,23 @@ function mapApp(row) {
   };
 }
 
-function appCodeForBug(applicationId) {
-  const app = APPS.find(function(a) { return a.id === applicationId; });
-  return app ? app.icon : '';
-}
-
-function mediaForBug(appCode, bugId) {
-  return MEDIA_REGISTRY[appCode + '-' + bugId] || [];
-}
-
 function youtubeId(url) {
   const m = String(url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
   return m ? m[1] : '';
 }
 
-function mediaItemHtml(m) {
-  if (m.type === 'youtube' && m.url) {
-    const id = youtubeId(m.url);
-    if (id) {
-      return '<div class="youtube-frame-wrap"><iframe class="youtube-frame" ' +
-        'src="https://www.youtube-nocookie.com/embed/' + id + '" ' +
-        'title="Video evidence" loading="lazy" ' +
-        'frameborder="0" ' +
-        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
-        'allowfullscreen></iframe></div>';
-    }
-    return '<a class="youtube-link" href="' + m.url + '" target="_blank" rel="noopener noreferrer">' +
-      '<span class="youtube-play">Watch on YouTube</span></a>';
+function mediaItemHtml(url) {
+  const id = youtubeId(url);
+  if (id) {
+    return '<div class="youtube-frame-wrap"><iframe class="youtube-frame" ' +
+      'src="https://www.youtube-nocookie.com/embed/' + id + '" ' +
+      'title="Video evidence" loading="lazy" ' +
+      'frameborder="0" ' +
+      'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+      'allowfullscreen></iframe></div>';
   }
-  if (m.type === 'video') {
-    return '<video src="Media/' + m.file + '" controls onerror="this.remove()"></video>';
-  }
-  return '<img src="Media/' + m.file + '" alt="Evidence" onerror="this.remove()">';
+  return '<a class="youtube-link" href="' + url + '" target="_blank" rel="noopener noreferrer">' +
+    '<span class="youtube-play">Watch on YouTube</span></a>';
 }
 
 function buildEvidenceHtml(bug) {
@@ -76,9 +61,15 @@ function buildEvidenceHtml(bug) {
     return '<div class="modal-evidence">' + mediaItemHtml(items[0]) + '</div>';
   }
 
-  return '<div class="modal-evidence-grid">' + items.map(function(m) {
-    return '<div class="modal-evidence-item">' + mediaItemHtml(m) + '</div>';
+  return '<div class="modal-evidence-grid">' + items.map(mediaItemHtml).map(function(html) {
+    return '<div class="modal-evidence-item">' + html + '</div>';
   }).join('') + '</div>';
+}
+
+function toUrlArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.filter(Boolean);
+  return [value];
 }
 
 function mapBug(row) {
@@ -95,7 +86,7 @@ function mapBug(row) {
     actual: row.r_actual,
     affectedVersion: row.afected_version,
     lastUpdate: row.date_close || row.date_created,
-    media: mediaForBug(appCodeForBug(row.application_id), row.id)
+    media: toUrlArray(row.video_URL)
   };
 }
 
