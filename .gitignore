@@ -1,0 +1,10 @@
+# Secrets - never commit
+.env
+
+# Node
+node_modules/
+
+# Media: ignore heavy files (screen recordings, videos, datos), but keep the small logos
+Media/*
+!Media/*_Logo.webp
+!Media/*_logo.webp
