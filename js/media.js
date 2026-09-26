@@ -3,5 +3,6 @@ const APP_LOGOS = {
   PoGo: 'Media/PoGo_Logo.webp',
   StOfDe2: 'Media/StOfDe2_Logo.webp',
   HaloCamEvo: 'Media/HaloCamEvo_Logo.webp',
-  PvZ2: 'Media/PvZ2_Logo.webp'
+  PvZ2: 'Media/PvZ2_Logo.webp',
+  MagCraf: 'Media/MagCraft_Logo.webp'
 };
