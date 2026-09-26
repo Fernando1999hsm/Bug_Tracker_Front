@@ -4,5 +4,5 @@ const APP_LOGOS = {
   StOfDe2: 'Media/StOfDe2_Logo.webp',
   HaloCamEvo: 'Media/HaloCamEvo_Logo.webp',
   PvZ2: 'Media/PvZ2_Logo.webp',
-  MagCraf: 'Media/MagCraft_Logo.webp'
+  MagCraf: 'Media/MagCraf_Logo.webp'
 };
